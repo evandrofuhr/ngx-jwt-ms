@@ -93,20 +93,17 @@ export class JwtInterceptor implements HttpInterceptor {
     return next.handle(request);
   }
 
-  intercept(
-    request: HttpRequest<any>,
-    next: HttpHandler
-  ): Observable<HttpEvent<any>> {
+  intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     const token = this.tokenGetter();
 
     if (token instanceof Promise) {
       return from(token).pipe(mergeMap(
         (asyncToken: string | null) => {
-          return this.handleInterception(asyncToken, request, next);
+          return this.handleInterception(asyncToken, req, next);
         }
       ));
     } else {
-      return this.handleInterception(token, request, next);
+      return this.handleInterception(token, req, next);
     }
   }
 }
