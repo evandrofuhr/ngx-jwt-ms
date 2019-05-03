@@ -82,7 +82,7 @@ export class JwtInterceptor implements HttpInterceptor {
     if (this.skipWhenExpired) {
       tokenIsExpired = token ? this.jwtHelper.isTokenExpired(token) : true;
     }
-
+    request = request.clone();
     if (token && tokenIsExpired && this.skipWhenExpired) {
       request = request.clone();
     } else if (token) {
